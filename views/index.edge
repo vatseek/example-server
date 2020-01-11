@@ -1,0 +1,10 @@
+@layout('layout')
+
+@section('content')
+    <h1>Hello {{ username }} - test</h1>
+    <h2>{{ env }}</h2>
+
+    <ul>
+    @!each(name in names, include = 'user')
+    </ul>
+@endsection
