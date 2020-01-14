@@ -4,26 +4,43 @@ const router = express.Router()
 const User = require('../models/User')
 
 router.get('/', function(req, res) {
-  const user = new User({ login: 'test', password: '123123' })
+  User.find({})
+    .then((users) => {
+      res.json(users)
+    })
+    .catch(() => {
+      res.json([])
+    })
+})
+
+router.get('/create', function(req, res) {
+  res.render('user/create')
+})
+
+router.get('/:login', function(req, res) {
+  const { login } = req.params
+
+  User.findOne({ login })
+    .then((users) => {
+      res.json(users)
+    })
+    .catch(() => {
+      res.json([])
+    })
+})
+
+router.post('/create', function(req, res) {
+  const { login, password } = req.body
+
+  const user = new User({ login, password })
   user
     .save()
     .then((result) => {
-      console.log(result)
-      res.send('Hello')
+      res.redirect('/user/create')
     })
-    .catch((e) => {
-      console.log(e)
-      res.send(`Error: ${e.message}`)
+    .catch(() => {
+      res.redirect('/user/create', { login, password })
     })
-})
-
-router.get('/:id', function(req, res) {
-  const { id } = req.params
-  res.send(`id:${id}`)
-})
-
-router.post('/', function(req, res) {
-  res.send('About birds')
 })
 
 module.exports = router

@@ -1,4 +1,5 @@
 const express = require('express');
+var bodyParser = require('body-parser');
 const app = express();
 const { config, engine } = require('express-edge');
 const userRoutes = require('./src/routes/user')
@@ -9,6 +10,8 @@ config({ cache: false });
  
 app.use(engine);
 app.set('views', `${__dirname}/src/views`);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/', (req, res) => {
@@ -16,5 +19,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRoutes);
- 
+
 app.listen(3000);
+
+process.on('unhandledRejection', error => {
+  console.log(error)
+  // log(error)
+});
