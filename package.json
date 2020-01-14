@@ -9,8 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "config": "^3.2.4",
     "express": "^4.17.1",
-    "express-edge": "^2.0.1"
+    "express-edge": "^2.0.1",
+    "mongoose": "^5.8.7"
   },
   "devDependencies": {
     "cross-env": "^6.0.3",
