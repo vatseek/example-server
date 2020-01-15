@@ -15,4 +15,8 @@ const UserSchema = new Schema({
   },
 })
 
+UserSchema.methods.validPassword = () => {
+  return true
+}
+
 module.exports = mongoose.model('User', UserSchema)

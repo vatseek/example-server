@@ -4,8 +4,10 @@ const app = express()
 const { config, engine } = require('express-edge')
 const appPort = require('config').get('appPort')
 
-const userRoutes = require('./server/routes/user')
 const db = require('./server/lib/db')
+const auth = require('./server/lib/auth')
+const commonRoutes = require('./server/routes/common')
+const userRoutes = require('./server/routes/user')
 
 config({ cache: false })
 
@@ -13,11 +15,10 @@ app.use(engine)
 app.set('views', `${__dirname}/server/views`)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(auth.initialize())
+app.use(auth.session())
 
-app.get('/', (req, res) => {
-  res.render('index', { username: 'tt', env: process.env.NODE_ENV, names: [] })
-})
-
+app.use('/', commonRoutes)
 app.use('/user', userRoutes)
 
 app.listen(appPort, () => {
