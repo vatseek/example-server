@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon index.js -e js,edge"
+    "dev:server": "cross-env NODE_ENV=development nodemon index.js -e js,edge --ignore ./client",
+    "dev:client": "cross-env NODE_ENV=development && cd client && npm start",
+    "app:install": "npm install && cd client && npm install"
   },
   "author": "",
   "license": "ISC",
