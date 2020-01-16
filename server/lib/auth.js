@@ -1,25 +1,41 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const JwtStrategy = require('passport-jwt').Strategy
+const ExtractJwt = require('passport-jwt').ExtractJwt
 
 const User = require('../models/User')
 
-passport.use(
-  new LocalStrategy(function(username, password, done) {
-    User.findOne({ login: username })
-      .then((user) => {
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' })
-        }
-        if (!user.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' })
-        }
-        return done(null, user)
-      })
-      .catch((e) => {
-        return done(e)
-      })
+const localStrategy = new LocalStrategy(function(username, password, done) {
+  User.findOne({ login: username })
+    .then((user) => {
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' })
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' })
+      }
+      return done(null, user)
+    })
+    .catch((e) => {
+      return done(e)
+    })
+})
+
+const opts = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: 'secret',
+}
+
+const jwtStrategy = new JwtStrategy(opts, function(jwt_payload, done) {
+  console.log('---', jwt_payload)
+
+  User.findOne({ login: 'external' }).then((user) => {
+    return done(null, user)
   })
-)
+})
+
+passport.use(localStrategy)
+passport.use(jwtStrategy)
 
 passport.serializeUser(function(user, done) {
   done(null, user)
