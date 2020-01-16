@@ -5,9 +5,6 @@ const User = require('../models/User')
 
 passport.use(
   new LocalStrategy(function(username, password, done) {
-
-    console.log(username, password)
-
     User.findOne({ login: username })
       .then((user) => {
         if (!user) {
@@ -24,4 +21,23 @@ passport.use(
   })
 )
 
-module.exports = passport
+passport.serializeUser(function(user, done) {
+  done(null, user)
+})
+
+passport.deserializeUser(function(user, done) {
+  done(null, user)
+})
+
+const isAuth = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+
+  res.redirect('/login')
+}
+
+module.exports = {
+  passport,
+  isAuth,
+}

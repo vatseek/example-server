@@ -1,19 +1,27 @@
 const express = require('express')
 const router = express.Router()
 
-const auth = require('../lib/auth')
+const { passport, isAuth } = require('../lib/auth')
 
 router.get('/', function(req, res) {
-  res.render('index', { username: 'tt', env: process.env.NODE_ENV, names: [] })
+  res.render('index', { username: req.user ? req.user.login : 'Anonymous' })
 })
 
 router.get('/login', function(req, res) {
   res.render('user/login')
 })
 
-router.post('/login', auth.authorize('local'), function(req, res) {
-  // TODO: check auth method
+router.get('/logout', function(req, res) {
+  req.logout()
+  res.redirect('/login')
+})
+
+router.post('/login', passport.authenticate('local', { session: true }), function(req, res) {
   res.redirect('/')
+})
+
+router.get('/protected', isAuth, function(req, res) {
+  res.send('Welcome Protected Zone')
 })
 
 module.exports = router

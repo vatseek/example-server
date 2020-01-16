@@ -1,11 +1,13 @@
 const express = require('express')
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 const app = express()
 const { config, engine } = require('express-edge')
 const appPort = require('config').get('appPort')
 
 const db = require('./server/lib/db')
-const auth = require('./server/lib/auth')
+const { passport } = require('./server/lib/auth')
 const commonRoutes = require('./server/routes/common')
 const userRoutes = require('./server/routes/user')
 
@@ -13,10 +15,14 @@ config({ cache: false })
 
 app.use(engine)
 app.set('views', `${__dirname}/server/views`)
+app.use(cookieParser())
+app.use(
+  session({ secret: 'SECRET', resave: false, saveUninitialized: true, cookie: { secure: false } })
+)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(auth.initialize())
-app.use(auth.session())
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use('/', commonRoutes)
 app.use('/user', userRoutes)
