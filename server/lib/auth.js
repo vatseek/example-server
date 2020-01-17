@@ -50,7 +50,7 @@ const isAuth = (req, res, next) => {
     return next()
   }
 
-  res.redirect('/login')
+  res.send('Unauthorized')
 }
 
 module.exports = {

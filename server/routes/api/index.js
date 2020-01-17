@@ -3,7 +3,7 @@ const router = express.Router()
 
 const { passport } = require('../../lib/auth')
 
-router.post('/api/profile', passport.authenticate('jwt', { session: false }), function(req, res) {
+router.get('/api/profile', passport.authenticate('jwt', { session: false }), function(req, res) {
   res.send(req.user)
 })
 
