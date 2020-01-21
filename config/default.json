@@ -1,4 +1,8 @@
 {
   "db": "mongodb://localhost/test",
-  "appPort": 5000
+  "appPort": 5000,
+  "privat": {
+    "id": "138922",
+    "password": "046ER0on1kn3uoa2ZypL3YBO4g7DMeRO"
+  }
 }
