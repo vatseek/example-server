@@ -1,38 +1,50 @@
-import React from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as EmailValidator from "email-validator";
+import React from 'react'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
+
+import { login, getProtected } from './api/user'
 
 export default class Login extends React.Component {
   render() {
-    const { history } = this.props;
+    const { history } = this.props
     return (
       <Formik
         initialValues={{
-          email: "",
-          password: ""
+          email: 'external',
+          password: 'external',
         }}
-        validate={values => {
-          let errors = {};
+        validate={(values) => {
+          let errors = {}
           if (!values.email) {
-            errors.email = "Required";
-          } else if (!EmailValidator.validate(values.email)) {
-            errors.email = "Invalid email address";
+            errors.email = 'Required'
+          } else if (values.email.length < 3) {
+            errors.email = 'Invalid email address'
           }
 
-          const passwordRegex = /(?=.*[0-9])/;
           if (!values.password) {
-            errors.password = "Required";
-          } else if (values.password.length < 8) {
-            errors.password = "Password must be 8 characters long.";
-          } else if (!passwordRegex.test(values.password)) {
-            errors.password = "Invalid password. Must contain one number";
+            errors.password = 'Required'
+          } else if (values.password.length < 3) {
+            errors.password = 'Password must be 8 characters long.'
           }
 
-          return errors;
+          return errors
         }}
-        onSubmit={values => {
-          console.log("Logging in", values);
-          history.push("/home");
+        onSubmit={({ email, password }) => {
+
+          getProtected().then(res => {
+            console.log(res)
+          })
+
+          /*
+          login({ username: email, password })
+            .then(({ user, token }) => {
+              localStorage.setItem('token', token)
+              history.push("/home")
+            })
+            .finally((e) => {})
+          {
+
+          }
+          */
         }}
         render={({ errors, touched }) => (
           <Form>
@@ -44,32 +56,18 @@ export default class Login extends React.Component {
               <Field
                 name="email"
                 type="text"
-                className={
-                  "form-control" +
-                  (errors.email && touched.email ? "error" : "")
-                }
+                className={'form-control' + (errors.email && touched.email ? 'error' : '')}
               />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="input-feedback"
-              />
+              <ErrorMessage name="email" component="div" className="input-feedback" />
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <Field
                 name="password"
                 type="password"
-                className={
-                  "form-control" +
-                  (errors.password && touched.password ? "error" : "")
-                }
+                className={'form-control' + (errors.password && touched.password ? 'error' : '')}
               />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="input-feedback"
-              />
+              <ErrorMessage name="password" component="div" className="input-feedback" />
             </div>
             <div className="form-group">
               <button type="submit" className="btn btn-primary">
@@ -79,6 +77,6 @@ export default class Login extends React.Component {
           </Form>
         )}
       />
-    );
+    )
   }
 }
