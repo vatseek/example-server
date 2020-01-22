@@ -29,22 +29,12 @@ export default class Login extends React.Component {
           return errors
         }}
         onSubmit={({ email, password }) => {
-
-          getProtected().then(res => {
-            console.log(res)
-          })
-
-          /*
           login({ username: email, password })
             .then(({ user, token }) => {
               localStorage.setItem('token', token)
               history.push("/home")
             })
             .finally((e) => {})
-          {
-
-          }
-          */
         }}
         render={({ errors, touched }) => (
           <Form>

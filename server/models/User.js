@@ -13,6 +13,8 @@ const UserSchema = new Schema({
   age: {
     type: Number,
   },
+}, {
+  timestamps: true
 })
 
 UserSchema.methods.validPassword = () => {

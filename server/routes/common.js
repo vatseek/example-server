@@ -1,8 +1,11 @@
+const _ = require('lodash')
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
 
 const { passport, isAuth } = require('../lib/auth')
+const { getBalance } = require('../lib/privat')
+const { addNewExpenses } = require('../services/exprense')
 
 router.get('/', function(req, res) {
   res.render('index', { username: req.user ? req.user.login : 'Anonymous' })
@@ -37,6 +40,20 @@ router.get('/logout', function(req, res) {
 
 router.get('/protected', isAuth, function(req, res) {
   res.send('Welcome Protected Zone')
+})
+
+router.get('/balance', function(req, res) {
+  getBalance('5363542306858664', '2020-01-21', '2020-01-22')
+    .then((result) => {
+      return addNewExpenses(_.get(result, 'response.data.info.statements.statement', []))
+    })
+    .then((result) => {
+      return res.send(result)
+    })
+    .catch((e) => {
+      console.log(e)
+      return res.send(e.message)
+    })
 })
 
 module.exports = router
