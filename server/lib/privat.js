@@ -1,14 +1,14 @@
-const Merchant = require('privatbank-api')
+//const Merchant = require('privatbank-api')
 const moment = require('moment')
 const privat = require('config').privat
 
 const DATE_FORMAT = 'DD.MM.YYYY'
 
-merchant = new Merchant({
-	id: privat.id,
-	password: privat.password,
-	country: 'UA',
-})
+// merchant = new Merchant({
+// 	id: privat.id,
+// 	password: privat.password,
+// 	country: 'UA',
+// })
 
 const DATA = {
 	response: {
@@ -57,9 +57,8 @@ const DATA = {
 }
 
 const getBalance = (cardNumber = '5363542306858664', startDate, endDate) => {
-	const start = moment(startDate).format(DATE_FORMAT)
-	const end = moment(endDate).format(DATE_FORMAT)
-
+	// const start = moment(startDate).format(DATE_FORMAT)
+	// const end = moment(endDate).format(DATE_FORMAT)
 	return Promise.resolve(DATA)
 
 	// return merchant

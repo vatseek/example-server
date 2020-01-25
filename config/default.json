@@ -1,18 +1,8 @@
 {
-<<<<<<< HEAD
 	"db": "mongodb://localhost/test",
 	"appPort": 5000,
 	"privat": {
-		"id": "",
-		"password": ""
+		"id": "138922",
+		"password": "046ER0on1kn3uoa2ZypL3YBO4g7DMeRO"
 	}
 }
-=======
-  "db": "mongodb://localhost/test",
-  "appPort": 5000,
-  "privat": {
-    "id": "138922",
-    "password": "046ER0on1kn3uoa2ZypL3YBO4g7DMeRO"
-  }
-}
->>>>>>> 5b2d290ed807f62c2ead025045e9ce2da37bcda4
