@@ -13,4 +13,8 @@ router.all('/*', require('./common'), function(req, res, next) {
 	next()
 })
 
+router.all('/balance/*', require('./balance'), function(req, res, next) {
+	next()
+})
+
 module.exports = router
