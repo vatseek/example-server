@@ -1,8 +1,7 @@
 const _ = require('lodash')
 const Expense = require('../models/Expense')
-const crypto = require('crypto')
 
-const addNewExpenses = (expenses, user = null, category = null) => {
+const addNewExpenses = (expenses, user, category = null) => {
 	if (_.isEmpty(expenses)) {
 		return Promise.resolve(true)
 	}
@@ -12,38 +11,27 @@ const addNewExpenses = (expenses, user = null, category = null) => {
 	}, [])
 
 	return Expense.find({ $or: query }).then((res) => {
-		let intersection = []
-
-		expenses.forEach((e) => {
-			let exists = []
-			exists.push(false)
-
-			res.forEach((r) => {
-				if (
-					crypto
-						.createHash('md5')
-						.update(e.amount + e.description)
-						.digest('hex') === r.hash
-				) {
-					exists.push(true)
-				}
+		let toSave = expenses.filter((v) => {
+			return !res.find((i) => {
+				return (
+					parseFloat(v.amount) == i.amount && v.description == i.description
+				)
 			})
-
-			if (!exists.includes(true)) {
-				intersection.push(e)
-			}
 		})
 
+		toSave = toSave.map((i) => ({
+			amount: parseFloat(i.amount),
+			description: i.description,
+			category: category,
+			owner: user,
+		}))
+
 		return Expense.insertMany(
-			intersection.map((i) => ({
+			toSave.map((i) => ({
 				amount: parseFloat(i.amount),
 				description: i.description,
 				category: category,
 				owner: user,
-				hash: crypto
-					.createHash('md5')
-					.update(i.amount + i.description)
-					.digest('hex'),
 			})),
 		)
 	})

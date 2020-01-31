@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const crypto = require('crypto')
+
 const Category = require('./Category')
 const User = require('./User')
 
@@ -20,10 +22,10 @@ const ExpenseSchema = new Schema(
 		owner: {
 			type: Schema.Types.ObjectId,
 			ref: User,
+			required: true,
 		},
 		hash: {
 			type: String,
-			required: true,
 		},
 	},
 	{
