@@ -10,7 +10,21 @@ const Category = require('../models/Category')
 const User = require('../models/User')
 
 router.get('/balance', (req, res) => {
-	res.send('oifgldkf')
+	const { owner_id } = req.params
+
+	getBalance('5363542306858664', '2020-01-21', '2020-01-22')
+		.then((result) => {
+			return addNewExpenses(
+				_.get(result, 'response.data.info.statements.statement', []),
+			)
+		})
+		.then((result) => {
+			return res.send(result)
+		})
+		.catch((e) => {
+			console.log(e)
+			return res.send(e.message)
+		})
 })
 
 router.get('/balance/:owner_id', function(req, res) {
@@ -21,7 +35,7 @@ router.get('/balance/:owner_id', function(req, res) {
 			return addNewExpenses(
 				_.get(result, 'response.data.info.statements.statement', []),
 				owner_id,
-				'',
+				null,
 			)
 		})
 		.then((result) => {

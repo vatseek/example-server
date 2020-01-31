@@ -20,7 +20,6 @@ const ExpenseSchema = new Schema(
 		owner: {
 			type: Schema.Types.ObjectId,
 			ref: User,
-			required: true,
 		},
 		hash: {
 			type: String,
@@ -33,5 +32,10 @@ const ExpenseSchema = new Schema(
 		},
 	},
 )
+
+ExpenseSchema.pre('save', (next) => {
+	console.log(this.hash)
+	next()
+})
 
 module.exports = mongoose.model('Expense', ExpenseSchema)

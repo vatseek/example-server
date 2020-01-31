@@ -2,7 +2,7 @@ const _ = require('lodash')
 const Expense = require('../models/Expense')
 const crypto = require('crypto')
 
-const addNewExpenses = (expenses, user, category) => {
+const addNewExpenses = (expenses, user = null, category = null) => {
 	if (_.isEmpty(expenses)) {
 		return Promise.resolve(true)
 	}
