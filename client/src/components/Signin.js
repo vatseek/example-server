@@ -7,7 +7,7 @@ import { required, email, minLength5 } from '../utils/validators'
 import OwnInput from './OwnInput'
 
 const SimpleForm = (props) => {
-  const sendToServer = (v) => {
+  const sendToServer = (values) => {
     return new Promise((res, rej) => {
       setTimeout(() => {
         res(true)
@@ -51,8 +51,8 @@ const SimpleForm = (props) => {
 
 export default reduxForm({
   form: 'simple', // a unique identifier for this form
-  initialValues: {
-    email: 'oleg@productcrafters.io',
-    password: '123123',
-  },
+  // initialValues: {
+  //   email: 'oleg@productcrafters.io',
+  //   password: '123123',
+  // },
 })(SimpleForm)
