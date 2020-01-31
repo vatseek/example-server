@@ -21,7 +21,7 @@ router.get('/balance/:owner_id', function(req, res) {
 			return addNewExpenses(
 				_.get(result, 'response.data.info.statements.statement', []),
 				owner_id,
-				'',
+				null,
 			)
 		})
 		.then((result) => {

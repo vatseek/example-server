@@ -49,6 +49,18 @@ const DATA = {
 							description:
 								'Ресторан: РЕСТОРАН &quot;ТРАТОРРИЯ ПАПАРАЦЦИ&quot;, Хмельницький, вул. Проскурвська, 30',
 						},
+            {
+              card: '5363542306858664',
+              appcode: '308375',
+              trandate: '2020-01-21',
+              trantime: '12:12:00',
+              amount: '0.63 UAH',
+              cardamount: '-0.50 UAH',
+              rest: '502.30 UAH',
+              terminal: 'PrivatBank, CP980T00',
+              description:
+                'Перевод на свою «Копилку» 26*66. Сдача от округления расходов до 1 UAH.',
+            },
 					],
 				},
 			},
