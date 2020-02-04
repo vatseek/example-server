@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
     })
 })
 
-router.get('/create', function(req, res) {
+router.get('/user/create', function(req, res) {
   res.render('user/create')
 })
 
@@ -29,7 +29,7 @@ router.get('/:login', function(req, res) {
     })
 })
 
-router.post('/create', function(req, res) {
+router.post('/user/create', function(req, res) {
   const { login, password } = req.body
 
   const user = new User({ login, password })
