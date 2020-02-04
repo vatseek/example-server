@@ -32,6 +32,7 @@ export default class Login extends React.Component {
           login({ username: email, password })
             .then(({ user, token }) => {
               localStorage.setItem('token', token)
+              localStorage.setItem('user', user)
               history.push("/home")
             })
             .finally((e) => {})

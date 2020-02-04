@@ -1,31 +1,36 @@
-import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { Form, Button } from 'react-bootstrap'
+import React from "react";
+import { Field, reduxForm } from "redux-form";
+import { Form, Button } from "react-bootstrap";
 
-import { required, email, minLength5 } from '../utils/validators'
+import { required, email, minLength5 } from "../utils/validators";
 
-import OwnInput from './OwnInput'
+import OwnInput from "./OwnInput";
+import { login } from "../api/user";
 
-const SimpleForm = (props) => {
-  const sendToServer = (values) => {
-    return new Promise((res, rej) => {
-      setTimeout(() => {
-        res(true)
-      }, 3000)
-    })
-  }
+const SimpleForm = props => {
+  const sendToServer = (username, password) => {
+    login({ username, password }).then(({ token, user }) => {
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", user);
+    });
+    // return new Promise((res, rej) => {
+    //   setTimeout(() => {
+    //     res(true)
+    //   }, 3000)
+    // })
+  };
 
-  const { handleSubmit, pristine, submitting } = props
+  const { handleSubmit, pristine, submitting } = props;
   return (
     <Form onSubmit={handleSubmit(sendToServer)}>
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
         <Field
-          name="email"
+          name="username"
           component={OwnInput}
-          type="email"
-          placeholder="Email"
-          validate={[required, email]}
+          type="text"
+          placeholder="Username"
+          validate={[required]}
         />
       </Form.Group>
 
@@ -41,18 +46,22 @@ const SimpleForm = (props) => {
       </Form.Group>
 
       <div>
-        <Button variant={pristine ? 'danger' : 'success'} type="submit" disabled={submitting}>
+        <Button
+          variant={pristine ? "danger" : "success"}
+          type="submit"
+          disabled={submitting}
+        >
           Submit
         </Button>
       </div>
     </Form>
-  )
-}
+  );
+};
 
 export default reduxForm({
-  form: 'simple', // a unique identifier for this form
-  // initialValues: {
-  //   email: 'oleg@productcrafters.io',
-  //   password: '123123',
-  // },
-})(SimpleForm)
+  form: "simple", // a unique identifier for this form
+  initialValues: {
+    username: "vvvvv",
+    password: "vvvvv"
+  }
+})(SimpleForm);
