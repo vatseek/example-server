@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 
-import { login, getProtected } from './api/user'
+import { login /*, getProtected*/ } from './api/user'
 
 export default class Login extends React.Component {
   render() {
@@ -9,8 +9,8 @@ export default class Login extends React.Component {
     return (
       <Formik
         initialValues={{
-          email: 'external',
-          password: 'external',
+          email: 'vvvvv',
+          password: 'vvvvv',
         }}
         validate={(values) => {
           let errors = {}
