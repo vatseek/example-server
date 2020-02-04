@@ -17,5 +17,9 @@ router.all('/*', require('./common'), function(req, res, next) {
 	next()
 })
 
+//  router.all('/category/*', require('./category'), function(req, res, next) {
+//  	next()
+//  })
+
 
 module.exports = router

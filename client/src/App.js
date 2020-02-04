@@ -6,6 +6,8 @@ import store from './redux/store'
 import LoginForm from './LoginForm'
 import SimpleForm from './components/Signin'
 import Home from './Home'
+import CreateCategoryForm from './components/category/Create'
+// import AllCategories from './components/category/All'
 
 class App extends React.Component {
   render() {
@@ -16,6 +18,8 @@ class App extends React.Component {
             <Route exact path="/loginform" component={LoginForm} />
             <Route exact path="/form" component={SimpleForm} />
             <Route exact path="/home" component={Home} />
+            <Route exact path="/categories/create" component={CreateCategoryForm} />
+            {/* <Route exact path="/categories" component={AllCategories} /> */}
             <Route path="/" component={LoginForm} />
           </Switch>
         </Router>
