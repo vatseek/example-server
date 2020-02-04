@@ -7,7 +7,17 @@ const ownInput = (props) => {
 
 	return (
 		<>
-			<Form.Control {...input} {...rest} isInvalid={touched && !valid} />
+			<Form.Control
+				{...input}
+				{...rest}
+				as='select'
+				isInvalid={touched && !valid}
+			>
+				<option></option>
+				<option value='food'>Food</option>
+				<option value='rest'>Rest</option>
+				<option value='clothes'>Clothes</option>
+			</Form.Control>
 			{touched && error && (
 				<Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>
 			)}
