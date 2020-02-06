@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions'
-const SET_UI_LOADING = 'SET_UI_LOADING'
+import { SAVE_USER } from './types'
 
-const startLoading = createAction(SET_UI_LOADING)
+const saveUser = createAction(SAVE_USER)
 
-export { startLoading }
+export { saveUser }

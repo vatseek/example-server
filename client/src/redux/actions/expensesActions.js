@@ -1,6 +1,10 @@
 import { createAction } from 'redux-actions'
-const SET_UI_LOADING = 'SET_UI_LOADING'
+import {
+	FETCH_EXPENSES_START,
+	FETCH_EXPENSES_SUCCESS,
+	SAVE_EXPENSE,
+} from '../actions/types'
 
-const startLoading = createAction(SET_UI_LOADING)
+const saveExpense = createAction(SAVE_EXPENSE)
 
-export { startLoading }
+export { saveExpense }

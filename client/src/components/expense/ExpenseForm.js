@@ -3,20 +3,18 @@ import { Field, reduxForm } from 'redux-form'
 import { Form, Button } from 'react-bootstrap'
 import { required, date } from 'redux-form-validators'
 
-import { getCategory } from '../api/category'
-import OwnInput from './OwnInput'
-import OwnComboBox from './OwnComboBox'
-import DatePicker, { formatDates, normalizeDates } from './OwnDatePicker'
+// import { getCategory } from '../../api/category'
+import OwnInput from '../OwnInput'
+import OwnComboBox from '../OwnComboBox'
+import DatePicker, { formatDates, normalizeDates } from '../OwnDatePicker'
 
 const ExpenseForm = (props) => {
-	const sendToServer = (values) => {
-
-	}
+	const sendToServer = (values) => {}
 
 	useEffect(() => {
-    getCategory().then(res => {
-      console.log(res)
-    })
+		// getCategory().then(res => {
+		//   console.log(res)
+		// })
 	}, [])
 
 	const { handleSubmit, pristine, submitting } = props
@@ -24,22 +22,12 @@ const ExpenseForm = (props) => {
 		<Form onSubmit={handleSubmit(sendToServer)}>
 			<Form.Group controlId='formBasicAmount'>
 				<Form.Label>Amount</Form.Label>
-				<Field
-					name='amount'
-					component={OwnInput}
-					type='text'
-					placeholder='Amount'
-					validate={[required()]}
-				/>
+				<Field name='amount' component={OwnInput} type='text' placeholder='Amount' validate={[required()]} />
 			</Form.Group>
 
 			<Form.Group controlId='formBasicCategory'>
 				<Form.Label>Category</Form.Label>
-				<Field
-					name='category'
-					component={OwnComboBox}
-					validate={[required()]}
-				/>
+				<Field name='category' component={OwnComboBox} validate={[required()]} />
 			</Form.Group>
 
 			<Form.Group controlId='formBasicDate'>
@@ -55,18 +43,13 @@ const ExpenseForm = (props) => {
 			</Form.Group>
 
 			<div>
-				<Button
-					variant={pristine ? 'danger' : 'success'}
-					type='submit'
-					disabled={submitting}
-				>
+				<Button variant={pristine ? 'danger' : 'success'} type='submit' disabled={submitting}>
 					Submit
 				</Button>
 			</div>
 		</Form>
 	)
 }
-
 
 // connect
 export default reduxForm({

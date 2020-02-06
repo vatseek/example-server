@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions'
-const SET_UI_LOADING = 'SET_UI_LOADING'
+import { SAVE_CATEGORY } from './types'
 
-const startLoading = createAction(SET_UI_LOADING)
+const saveCategory = createAction(SAVE_CATEGORY)
 
-export { startLoading }
+export { saveCategory }
