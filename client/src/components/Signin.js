@@ -1,31 +1,38 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 import { Form, Button } from 'react-bootstrap'
 
 import { required, email, minLength5 } from '../utils/validators'
+import { fetchUser } from '../redux/actions/userActions'
+import { login } from '../api/user'
 
 import OwnInput from './OwnInput'
 
-const SimpleForm = (props) => {
-  const sendToServer = (values) => {
-    return new Promise((res, rej) => {
-      setTimeout(() => {
-        res(true)
-      }, 3000)
-    })
+const SimpleForm = ({ handleSubmit, pristine, submitting, fetchUser, userData, history }) => {
+  const sendToServer = ({ username, password }) => {
+    login({ username, password })
+      .then(({ token, user }) => {
+        localStorage.setItem('token', token)
+        localStorage.setItem('user', user)
+
+        fetchUser(user)
+      })
+      .then(() => {
+        history.push('/expense')
+      })
   }
 
-  const { handleSubmit, pristine, submitting } = props
   return (
     <Form onSubmit={handleSubmit(sendToServer)}>
       <Form.Group controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
         <Field
-          name="email"
+          name="username"
           component={OwnInput}
-          type="email"
-          placeholder="Email"
-          validate={[required, email]}
+          type="text"
+          placeholder="Username"
+          validate={[required]}
         />
       </Form.Group>
 
@@ -49,10 +56,17 @@ const SimpleForm = (props) => {
   )
 }
 
-export default reduxForm({
+const LoginForm = reduxForm({
   form: 'simple', // a unique identifier for this form
-  // initialValues: {
-  //   email: 'oleg@productcrafters.io',
-  //   password: '123123',
-  // },
+  initialValues: {
+    username: 'external',
+    password: 'external ',
+  },
 })(SimpleForm)
+
+export default connect(
+  ({ user: { data } }) => ({ userData: data }),
+  {
+    fetchUser,
+  }
+)(LoginForm)
