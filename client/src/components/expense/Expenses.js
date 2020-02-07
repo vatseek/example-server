@@ -14,11 +14,13 @@ class Expenses extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.expenses.length <= 0) {
-      this.props.getExpensesStart()
+    const { expenses, getExpensesStart, getExpenses } = this.props
+
+    if (expenses.length <= 0) {
+      getExpensesStart()
       fetchExpenses()
         .then((result) => {
-          this.props.getExpenses(result)
+          getExpenses(result)
         })
         .catch((err) => {
           console.log(err)
@@ -47,19 +49,18 @@ class Expenses extends React.Component {
               <Button variant='outline-primary'>Create expense</Button>
             </Link>
           </InputGroup>
-          {this.props.expenses
-            ? this.props.expenses.map((expense) => (
-                <Card key={expense._id}>
-                  <Card.Header>{expense.amount} UAH</Card.Header>
-                  <Card.Body>
-                    <Card.Text>{expense.description}</Card.Text>
-                    <Button variant='danger' value={expense._id} onClick={this.handleDelete}>
-                      Delete
-                    </Button>
-                  </Card.Body>
-                </Card>
-              ))
-            : ''}
+          {this.props.expenses &&
+            this.props.expenses.map((expense) => (
+              <Card key={expense._id}>
+                <Card.Header>{expense.amount} UAH</Card.Header>
+                <Card.Body>
+                  <Card.Text>{expense.description}</Card.Text>
+                  <Button variant='danger' value={expense._id} onClick={this.handleDelete}>
+                    Delete
+                  </Button>
+                </Card.Body>
+              </Card>
+            ))}
         </div>
       </div>
     )

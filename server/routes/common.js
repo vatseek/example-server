@@ -9,6 +9,10 @@ const { addNewExpenses } = require('../services/expense')
 
 const Category = require('../models/Category')
 
+const CARD_ID = '5363542306858664'
+const START_DATE = '2020-01-21'
+const END_DATE = '2020-01-22'
+
 router.get('/', function(req, res) {
   res.render('index', { username: req.user ? req.user.login : 'Anonymous' })
 })
@@ -48,7 +52,7 @@ router.get('/protected', isAuth, function(req, res) {
 router.get('/balance/:owner_id', function(req, res) {
   const { owner_id } = req.params
 
-  getBalance('5363542306858664', '2020-01-21', '2020-01-22')
+  getBalance(CARD_ID, START_DATE, END_DATE)
     .then((result) => {
       return addNewExpenses(_.get(result, 'response.data.info.statements.statement', []), owner_id, '')
     })
@@ -64,7 +68,7 @@ router.get('/balance/:owner_id', function(req, res) {
 router.get('/balance/:owner_id/:category_id', function(req, res) {
   const { owner_id, category_id } = req.params
 
-  getBalance('5363542306858664', '2020-01-21', '2020-01-22')
+  getBalance(CARD_ID, START_DATE, END_DATE)
     .then((result) => {
       return addNewExpenses(_.get(result, 'response.data.info.statements.statement', []), owner_id, category_id)
     })

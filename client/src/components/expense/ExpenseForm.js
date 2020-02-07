@@ -31,7 +31,11 @@ const ExpenseForm = ({ handleSubmit, pristine, submitting, insertExpense, expens
     })
   }, [])
 
-  return categoriesList ? (
+  if (!categoriesList) {
+    return <div>Loading...</div>
+  }
+
+  return (
     <Form onSubmit={handleSubmit(sendToServer)}>
       <Form.Group controlId='formBasicAmount'>
         <Form.Label>Amount</Form.Label>
@@ -66,8 +70,6 @@ const ExpenseForm = ({ handleSubmit, pristine, submitting, insertExpense, expens
         </Button>
       </div>
     </Form>
-  ) : (
-    'Loading...'
   )
 }
 

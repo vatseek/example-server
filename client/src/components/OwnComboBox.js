@@ -9,13 +9,12 @@ const ownInput = (props) => {
     <>
       <Form.Control {...input} {...rest} as='select' isInvalid={touched && !valid}>
         <option></option>
-        {categories
-          ? categories.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.name}
-              </option>
-            ))
-          : ''}
+        {categories &&
+          categories.map((category) => (
+            <option key={category._id} value={category._id}>
+              {category.name}
+            </option>
+          ))}
       </Form.Control>
       {touched && error && <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>}
     </>
