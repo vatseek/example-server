@@ -10,22 +10,22 @@ import CategoryForm from './components/category/CategoryForm'
 import Categories from './components/category/Categories'
 
 class App extends React.Component {
-	render() {
-		return (
-			<Provider store={store}>
-				<Router>
-					<Switch>
-						<Route exact path='/login' component={LoginForm} />
-						<Route exact path='/expenses/create' component={ExpenseForm} />
-						<Route exact path='/expenses' component={Expenses} />
-						<Route exact path='/categories/create' component={CategoryForm} />
-						<Route exact path='/categories' component={Categories} />
-						<Route path='/' component={LoginForm} />
-					</Switch>
-				</Router>
-			</Provider>
-		)
-	}
+  render() {
+    return (
+      <Provider store={store}>
+        <Router>
+          <Switch>
+            <Route exact path='/login' component={LoginForm} />
+            <Route exact path='/expenses/create' component={ExpenseForm} />
+            <Route exact path='/expenses' component={Expenses} />
+            <Route exact path='/categories/create' component={CategoryForm} />
+            <Route exact path='/categories' component={Categories} />
+            <Route path='/' component={LoginForm} />
+          </Switch>
+        </Router>
+      </Provider>
+    )
+  }
 }
 
 export default App

@@ -7,12 +7,12 @@ import expenses from './reducers/expensesReducer'
 import categories from './reducers/categoriesReducer'
 
 const rootReducer = combineReducers({
-	form: formReducer,
-	user,
-	expenses,
-	categories,
+  form: formReducer,
+  user,
+  expenses,
+  categories,
 })
 export default createStore(
-	rootReducer,
-	compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()),
+  rootReducer,
+  compose(applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()),
 )
