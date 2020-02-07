@@ -4,19 +4,19 @@ import { connect } from 'react-redux'
 import { Form, Button } from 'react-bootstrap'
 
 import { required, minLength5 } from '../../utils/validators'
-import { saveUser } from '../../redux/actions/userActions'
+import { insertUser } from '../../redux/actions/userActions'
 import { login } from '../../api/user'
 
 import OwnInput from '../OwnInput'
 
-const SimpleForm = ({ handleSubmit, pristine, submitting, saveUser, userData, history }) => {
+const SimpleForm = ({ handleSubmit, pristine, submitting, insertUser, userData, history }) => {
 	const sendToServer = ({ username, password }) => {
 		login({ username, password })
 			.then(({ token, user }) => {
 				localStorage.setItem('token', token)
-				localStorage.setItem('user', user)
+				localStorage.setItem('user', JSON.stringify(user))
 
-				saveUser(user)
+				insertUser(user)
 			})
 			.then(() => {
 				history.push('/expenses')
@@ -26,7 +26,7 @@ const SimpleForm = ({ handleSubmit, pristine, submitting, saveUser, userData, hi
 	return (
 		<Form onSubmit={handleSubmit(sendToServer)}>
 			<Form.Group controlId='formBasicEmail'>
-				<Form.Label>Email</Form.Label>
+				<Form.Label>Username</Form.Label>
 				<Field name='username' component={OwnInput} type='text' placeholder='Username' validate={[required]} />
 			</Form.Group>
 
@@ -53,11 +53,17 @@ const SimpleForm = ({ handleSubmit, pristine, submitting, saveUser, userData, hi
 const LoginForm = reduxForm({
 	form: 'simple',
 	initialValues: {
-		username: 'login',
-		password: 'password ',
+		username: 'external',
+		password: 'external',
 	},
 })(SimpleForm)
 
-export default connect(({ user: { data } }) => ({ userData: data }), {
-	saveUser,
+const mapStateToProps = (store) => {
+	return {
+		userData: store.user.data,
+	}
+}
+
+export default connect(mapStateToProps, {
+	insertUser,
 })(LoginForm)

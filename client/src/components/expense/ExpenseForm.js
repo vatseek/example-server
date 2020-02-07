@@ -1,24 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { Form, Button } from 'react-bootstrap'
 import { required, date } from 'redux-form-validators'
+import { connect } from 'react-redux'
 
-// import { getCategory } from '../../api/category'
+import { getCategories } from '../../api/category'
 import OwnInput from '../OwnInput'
 import OwnComboBox from '../OwnComboBox'
 import DatePicker, { formatDates, normalizeDates } from '../OwnDatePicker'
 
-const ExpenseForm = (props) => {
-	const sendToServer = (values) => {}
+import { insertExpense } from '../../redux/actions/expensesActions'
+import { saveExpense } from '../../api/expense'
+
+const ExpenseForm = ({ handleSubmit, pristine, submitting, insertExpense, expensesData, history }) => {
+	const [categoriesList, setCategoriesList] = useState([])
+
+	const sendToServer = ({ amount, category, date, description }) => {
+		const { _id } = JSON.parse(localStorage.getItem('user'))
+		saveExpense({ amount, category, description, date, owner: _id })
+			.then((result) => {
+				insertExpense(result)
+				history.push('/expenses')
+			})
+			.catch((err) => console.log(err))
+	}
 
 	useEffect(() => {
-		// getCategory().then(res => {
-		//   console.log(res)
-		// })
+		getCategories().then((res) => {
+			setCategoriesList(res)
+		})
 	}, [])
 
-	const { handleSubmit, pristine, submitting } = props
-	return (
+	return categoriesList ? (
 		<Form onSubmit={handleSubmit(sendToServer)}>
 			<Form.Group controlId='formBasicAmount'>
 				<Form.Label>Amount</Form.Label>
@@ -27,7 +40,12 @@ const ExpenseForm = (props) => {
 
 			<Form.Group controlId='formBasicCategory'>
 				<Form.Label>Category</Form.Label>
-				<Field name='category' component={OwnComboBox} validate={[required()]} />
+				<Field name='category' component={OwnComboBox} validate={[required()]} categories={categoriesList} />
+			</Form.Group>
+
+			<Form.Group controlId='formBasicDescription'>
+				<Form.Label>Description</Form.Label>
+				<Field name='description' component={OwnInput} type='text' placeholder='Description' validate={[required()]} />
 			</Form.Group>
 
 			<Form.Group controlId='formBasicDate'>
@@ -48,10 +66,22 @@ const ExpenseForm = (props) => {
 				</Button>
 			</div>
 		</Form>
+	) : (
+		'Loading...'
 	)
 }
 
 // connect
-export default reduxForm({
+const UpdatedExpenseForm = reduxForm({
 	form: 'simple',
 })(ExpenseForm)
+
+const mapStateToProps = (store) => {
+	return {
+		expensesData: store.expenses.data,
+	}
+}
+
+export default connect(mapStateToProps, {
+	insertExpense,
+})(UpdatedExpenseForm)

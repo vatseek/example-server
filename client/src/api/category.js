@@ -1,6 +1,6 @@
 import request from '../lib/request'
 
-export const category = ({ name }) => {
+export const saveCategory = (name) => {
 	return request({
 		url: '/categories/create',
 		method: 'post',
@@ -8,9 +8,9 @@ export const category = ({ name }) => {
 	})
 }
 
-export const getCategory = () => {
+export const getCategories = () => {
 	return request({
-		url: '/categories/',
+		url: '/categories',
 		method: 'get',
 	})
 }

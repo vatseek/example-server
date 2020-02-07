@@ -1,23 +1,23 @@
 import React from 'react'
+
 import { Field, reduxForm } from 'redux-form'
 import { Form, Button } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
 import { required, minLength2 } from '../../utils/validators'
 
-// import { name } from '../../api/category'
+import { insertCategory } from '../../redux/actions/categoriesActions'
+import { saveCategory } from '../../api/category'
 
 import OwnInput from '../OwnInput'
 
-const CategoryForm = (props) => {
-	const sendToServer = (values) => {
-		return new Promise((res, rej) => {
-			setTimeout(() => {
-				res(true)
-			}, 3000)
+const CategoryForm = ({ handleSubmit, pristine, submitting, insertCategory, history }) => {
+	const sendToServer = ({ name }) => {
+		saveCategory(name).then(({ name }) => {
+			insertCategory(name)
 		})
 	}
 
-	const { handleSubmit, pristine, submitting } = props
 	return (
 		<Form onSubmit={handleSubmit(sendToServer)}>
 			<Form.Group controlId='categoryName'>
@@ -32,11 +32,7 @@ const CategoryForm = (props) => {
 			</Form.Group>
 
 			<div>
-				<Button
-					variant={pristine ? 'danger' : 'success'}
-					type='submit'
-					disabled={submitting}
-				>
+				<Button variant={pristine ? 'danger' : 'success'} type='submit' disabled={submitting}>
 					Submit
 				</Button>
 			</div>
@@ -44,6 +40,19 @@ const CategoryForm = (props) => {
 	)
 }
 
-export default reduxForm({
-	form: 'category',
+const UpdatedCategoryForm = reduxForm({
+	form: 'simple',
+	initialValues: {
+		name: 'category',
+	},
 })(CategoryForm)
+
+const mapStateToProps = (store) => {
+	return {
+		categories: store.categories.data,
+	}
+}
+
+export default connect(mapStateToProps, {
+	insertCategory,
+})(UpdatedCategoryForm)
