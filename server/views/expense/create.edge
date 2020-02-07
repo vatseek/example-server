@@ -1,31 +1,24 @@
 <form action="" method="post">
     <label>Amount:</label>
-    <input type="number" name="amount" />
-    <label>Description:</label>
-    <input type="text" name="description" size="50" />
-  
-
-    
-
-
-
-    <label>Категорія:</label>
-    <select name="сategory">
-            
-            @each(сategory in result)
-                <option> {{category.name}} </option> 
-            @endeach
-        </select>  
-
-    <label>Owner:</label>
-    <select name="owner">
-            
-            @each(user in users) 
-                <option> {{user.login}} </option> 
-            @endeach
-        </select>  
-
-        
-
-    <input type="submit" value="Save" />
-  </form> 
+     <input type="number" name="amount" />
+     <label>Description:</label>
+     <input type="text" name="description" size="50" />
+       <label>Owner:</label>
+     <select name="owner">
+             
+             @each(user in users)
+                 <option> {{user.login}} </option> 
+             @endeach
+         </select>  
+ 
+     <label>Category:</label>
+     <select name="owner">
+             @each(category in categories)
+                 <option> {{ category.name }} </option> 
+             @endeach
+         </select>  
+ 
+         
+ 
+     <input type="submit" value="Save" />
+ </form>

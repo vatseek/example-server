@@ -204,7 +204,22 @@ router.get("/expenses/all", function(req, res) {
 });
 
 router.get("/expenses/create", function(req, res) {
-  res.render("expense/create");
+  Category.find({})
+  .then(categories => {
+    console.log(categories);
+
+    User.find({})
+    .then(users => {
+      console.log(users);
+      res.render("expense/create",{categories, users});
+    })
+
+
+    // res.render("expense/create",{categories});
+  })
+  .catch(() => {
+    res.json([]);
+  });
 });
 
 router.get("/:amount", function(req, res) {
@@ -217,8 +232,8 @@ router.get("/:amount", function(req, res) {
     .catch(() => {
       res.json([]);
     });
-});
-
+}); 
+  
 router.post("/expenses/create", function(req, res) {
   const { amount, description, category, owner } = req.body;
 

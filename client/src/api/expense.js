@@ -21,17 +21,17 @@ export const request = ({ url, method = 'get', data = {} }) => {
     })
 }
 
-export const category = ({ name }) => {
+export const newExpense = ({ amount, category, date }) => {
   return request({
-    url: '/categories/create',
+    url: '/expenses/create',
     method: 'post',
-    data: { name },
+    data: { amount, category, date },
   })
 }
 
-export const getCategory = () => {
+export const getExpense = () => {
   return request({
-    url: '/categories/',
+    url: '/expenses/',
     method: 'get',
   })
 }

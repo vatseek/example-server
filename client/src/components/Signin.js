@@ -1,26 +1,28 @@
-import React from "react";
-import { Field, reduxForm } from "redux-form";
-import { Form, Button } from "react-bootstrap";
+import React from 'react'
+import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
+import { Form, Button } from 'react-bootstrap'
 
-import { required, email, minLength5 } from "../utils/validators";
+import { required, minLength5 } from '../utils/validators'
+import { fetchUser } from '../redux/actions/userActions'
+import { login } from '../api/user'
 
 import OwnInput from "./OwnInput";
-import { login } from "../api/user";
 
-const SimpleForm = props => {
-  const sendToServer = (username, password) => {
-    login({ username, password }).then(({ token, user }) => {
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", user);
-    });
-    // return new Promise((res, rej) => {
-    //   setTimeout(() => {
-    //     res(true)
-    //   }, 3000)
-    // })
-  };
+const SimpleForm = ({ handleSubmit, pristine, submitting, fetchUser, userData, history }) => {
+  const sendToServer = ({ username, password }) => {
+    login({ username, password })
+      .then(({ token, user }) => {
+        localStorage.setItem('token', token)
+        localStorage.setItem('user', user)
 
-  const { handleSubmit, pristine, submitting } = props;
+        fetchUser(user)
+      })
+      .then(() => {
+        history.push('/expense')
+      })
+  }
+
   return (
     <Form onSubmit={handleSubmit(sendToServer)}>
       <Form.Group controlId="formBasicEmail">
@@ -58,10 +60,17 @@ const SimpleForm = props => {
   );
 };
 
-export default reduxForm({
-  form: "simple", // a unique identifier for this form
+const LoginForm = reduxForm({
+  form: 'simple', // a unique identifier for this form
   initialValues: {
-    username: "vvvvv",
-    password: "vvvvv"
+    username: 'vvvvv',
+    password: 'vvvvv',
+  },
+})(SimpleForm)
+
+export default connect(
+  ({ user: { data } }) => ({ userData: data }),
+  {
+    fetchUser,
   }
-})(SimpleForm);
+)(LoginForm)

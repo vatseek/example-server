@@ -9,8 +9,8 @@ export default class Login extends React.Component {
     return (
       <Formik
         initialValues={{
-          email: 'vvvvv',
-          password: 'vvvvv',
+          email: 'external',
+          password: 'external',
         }}
         validate={(values) => {
           let errors = {}
@@ -33,7 +33,7 @@ export default class Login extends React.Component {
             .then(({ user, token }) => {
               localStorage.setItem('token', token)
               localStorage.setItem('user', user)
-              history.push("/home")
+              history.push('/home')
             })
             .finally((e) => {})
         }}

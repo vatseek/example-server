@@ -5,10 +5,11 @@ import { Provider } from 'react-redux'
 import store from './redux/store'
 import LoginForm from './LoginForm'
 import SimpleForm from './components/Signin'
-import ExpenseForm from './components/Expense'
+import ExpenseForm from './components/Expense/createExpense'
+import AllExpenses from './components/Expense/allExpenses'
 import Home from './Home'
-import CreateCategoryForm from './components/category/Create'
-// import AllCategories from './components/category/All'
+import CreateCategoryForm from './components/Category/Create'
+import AllCategories from './components/Category/All'
 
 class App extends React.Component {
 	render() {
@@ -21,8 +22,9 @@ class App extends React.Component {
 						<Route exact path='/expense' component={ExpenseForm} />
 						<Route exact path='/home' component={Home} />
 						<Route exact path="/categories/create" component={CreateCategoryForm} />
-            {/* <Route exact path="/categories" component={AllCategories} /> */}
-            <Route path='/' component={LoginForm} />
+            			<Route exact path="/categories" component={AllCategories} />
+						<Route exact path='/expense/all' component={AllExpenses} />
+            			<Route path='/' component={LoginForm} />
 					</Switch>
 				</Router>
 			</Provider>
