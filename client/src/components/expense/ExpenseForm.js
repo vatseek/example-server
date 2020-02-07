@@ -71,7 +71,6 @@ const ExpenseForm = ({ handleSubmit, pristine, submitting, insertExpense, expens
 	)
 }
 
-// connect
 const UpdatedExpenseForm = reduxForm({
 	form: 'simple',
 })(ExpenseForm)

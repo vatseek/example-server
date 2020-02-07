@@ -8,9 +8,16 @@ export const saveExpense = ({ amount, category, description, date, owner }) => {
 	})
 }
 
-export const getExpenses = () => {
+export const fetchExpenses = () => {
 	return request({
 		url: '/expenses',
 		method: 'get',
+	})
+}
+
+export const deleteExpense = (_id) => {
+	return request({
+		url: `/expenses/delete/:${_id}`,
+		method: 'post',
 	})
 }

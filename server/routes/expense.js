@@ -7,7 +7,6 @@ const Expense = require('../models/Expense')
 router.get('/', function(req, res) {
 	Expense.find({})
 		.then((result) => {
-			console.log(result)
 			res.send(result)
 		})
 		.catch((err) => {
@@ -33,14 +32,15 @@ router.post('/create', function(req, res) {
 		})
 })
 
-router.get('/delete/:id', function(req, res) {
-	Expense.findOneAndRemove({ _id: req.params.id })
-		.then((result) => {
-			res.send(result)
-		})
-		.catch((err) => {
-			console.log(err)
-		})
+router.post('/delete/:id', function(req, res) {
+	console.log(req.params.id)
+	// Expense.findOneAndRemove({ _id: req.params.id })
+	// 	.then((result) => {
+	// 		res.send(result)
+	// 	})
+	// 	.catch((err) => {
+	// 		console.log(err)
+	// 	})
 })
 
 module.exports = router
