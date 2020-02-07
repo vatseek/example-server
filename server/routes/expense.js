@@ -33,14 +33,13 @@ router.post('/create', function(req, res) {
 })
 
 router.post('/delete/:id', function(req, res) {
-	console.log(req.params.id)
-	// Expense.findOneAndRemove({ _id: req.params.id })
-	// 	.then((result) => {
-	// 		res.send(result)
-	// 	})
-	// 	.catch((err) => {
-	// 		console.log(err)
-	// 	})
+	Expense.findOneAndRemove({ _id: req.params.id })
+		.then((result) => {
+			res.send(result)
+		})
+		.catch((err) => {
+			console.log(err)
+		})
 })
 
 module.exports = router

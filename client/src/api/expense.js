@@ -17,7 +17,7 @@ export const fetchExpenses = () => {
 
 export const deleteExpense = (_id) => {
 	return request({
-		url: `/expenses/delete/:${_id}`,
+		url: `/expenses/delete/${_id}`,
 		method: 'post',
 	})
 }

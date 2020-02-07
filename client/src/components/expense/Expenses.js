@@ -3,10 +3,16 @@ import { Button, Card, InputGroup, FormControl } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { getExpensesStart, getExpenses } from '../../redux/actions/expensesActions'
+import { getExpensesStart, getExpenses, removeExpense } from '../../redux/actions/expensesActions'
 import { fetchExpenses, deleteExpense } from '../../api/expense'
 
 class Expenses extends React.Component {
+	constructor(props) {
+		super(props)
+
+		this.handleDelete = this.handleDelete.bind(this)
+	}
+
 	componentDidMount() {
 		if (this.props.expenses.length <= 0) {
 			this.props.getExpensesStart()
@@ -20,11 +26,12 @@ class Expenses extends React.Component {
 		}
 	}
 
-	deleteExpense(event) {
-		console.log(event)
-		// deleteExpense(_id).then((result) => {
-		// 	console.log(result)
-		// })
+	handleDelete(e) {
+		const id = e.target.value
+
+		deleteExpense(id).then((result) => {
+			this.props.removeExpense(result._id)
+		})
 	}
 
 	render() {
@@ -46,7 +53,7 @@ class Expenses extends React.Component {
 									<Card.Header>{expense.amount} UAH</Card.Header>
 									<Card.Body>
 										<Card.Text>{expense.description}</Card.Text>
-										<Button variant='danger' onClick={this.deleteExpense}>
+										<Button variant='danger' value={expense._id} onClick={this.handleDelete}>
 											Delete
 										</Button>
 									</Card.Body>
@@ -68,4 +75,5 @@ const mapStateToProps = (store) => {
 export default connect(mapStateToProps, {
 	getExpensesStart,
 	getExpenses,
+	removeExpense,
 })(Expenses)
