@@ -1,10 +1,13 @@
 import { combineReducers, createStore } from 'redux'
 import { reducer as formReducer } from 'redux-form'
-import userfrom './reducers/userReducer'
-
+import user from './reducers/userReducer'
+import expenses from './reducers/expenseReducer'
+import categories from './reducers/categoryReducer'
 const rootReducer = combineReducers({
   form: formReducer,
-  user
+  user,
+  expenses,
+   categories
   //
 })
 export default createStore(

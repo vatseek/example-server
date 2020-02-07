@@ -1,17 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { Form, Button } from 'react-bootstrap'
-
 import { required, date } from 'redux-form-validators'
-
+import { fetchExpense } from '../redux/actions/expenseAction'
+import { getCategory } from '../api/category'
 import OwnInput from './OwnInput'
 import OwnComboBox from './OwnComboBox'
+import { connect } from 'react-redux'
 import DatePicker, { formatDates, normalizeDates } from './OwnDatePicker'
 
-const ExpenseForm = (props) => {
+const ExpenseForm = (props,  expenseData) => {
 	const sendToServer = (values) => {
-		console.log(values)
+		console.log(expenseData)
+		fetchExpense(expenseData)
+
 	}
+
+	useEffect(() => {
+    getCategory().then(res => {
+      console.log(res)
+    })
+	}, [])
 
 	const { handleSubmit, pristine, submitting } = props
 	return (
@@ -61,6 +70,14 @@ const ExpenseForm = (props) => {
 	)
 }
 
-export default reduxForm({
+
+// connect
+const FinalForm = reduxForm({
 	form: 'simple',
 })(ExpenseForm)
+export default connect(
+	({ expenses: { data } }) => ({ expenseData: data }),
+	{
+	  fetchExpense,
+	}
+  )(FinalForm)

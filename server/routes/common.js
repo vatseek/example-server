@@ -204,8 +204,21 @@ router.get("/expenses/all", function(req, res) {
 });
 
 router.get("/expenses/create", function(req, res) {
-  res.render("expense/create");
+  Category.find({})
+  .then(categories => {
+    //res.json(users)
+    console.log(categories);
+    User.find({})
+    .then(users => {
+      res.render("expense/create",{categories,users});
+    })
+    
+  })
+  .catch(() => {
+    res.json([]);
+  });
 });
+
 
 router.get("/:amount", function(req, res) {
   const { amount } = req.params;
@@ -229,7 +242,7 @@ router.post("/expenses/create", function(req, res) {
       res.redirect("/expenses/all");
     })
     .catch(() => {
-      res.redirect("/expense/create", { amount, description, category, owner });
+      res.redirect("/expenses/create", { amount, description, category, owner });
     });
 });
 
