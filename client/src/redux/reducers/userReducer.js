@@ -1,18 +1,21 @@
 // import { get } from 'lodash'
-import { handleActions } from 'redux-actions'
-import { fetchUser} from '../actions/userActions'
+import { handleActions } from "redux-actions";
+import { fetchUser } from "../actions/userActions";
 
 const initialState = {
-    data:null,
-}
+  data: null
+};
 
-const userReducer = handleActions({
-    [fetchUser]: (state, {payload}) => {
-        return{
-            ...state,
-            data:payload
-        }
+const userReducer = handleActions(
+  {
+    [fetchUser]: (state, { payload }) => {
+      return {
+        ...state,
+        data: payload
+      };
     }
-}, initialState)
+  },
+  initialState
+);
 
-export default userReducer
+export default userReducer;

@@ -5,9 +5,9 @@ const router = express.Router()
 const { getBalance } = require('../lib/privat')
 const { addNewExpenses } = require('../services/expense')
 
-const Expense = require('../models/Expense')
-const Category = require('../models/Category')
-const User = require('../models/User')
+// const Expense = require('../models/Expense')
+// const Category = require('../models/Category')
+// const User = require('../models/User')
 
 router.get('/balance', (req, res) => {
 	const { owner_id } = req.params

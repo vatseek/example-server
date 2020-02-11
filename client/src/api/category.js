@@ -1,37 +1,23 @@
-import axios from 'axios'
-const config = require('../config.json')
+import request from "../lib/request";
 
-export const request = ({ url, method = 'get', data = {} }) => {
-  const token = localStorage.getItem('token')
-  let headers = {}
-  if (token) {
-    headers = { ...headers, Authorization: `Bearer ${token}` }
-  }
-
-  return axios({
-    url: `${config.apiUrl}${url}`,
-    method,
-    data,
-    headers,
-  })
-    .then(({ data }) => data)
-    .catch((e) => {
-      console.log(e)
-      return Promise.reject(e)
-    })
-}
-
-export const category = ({ name }) => {
+export const addCategory = name => {
   return request({
-    url: '/categories/create',
-    method: 'post',
-    data: { name },
-  })
-}
+    url: "/categories/create",
+    method: "post",
+    data: { name }
+  });
+};
 
-export const getCategory = () => {
+export const getCategories = () => {
   return request({
-    url: '/categories/',
-    method: 'get',
-  })
-}
+    url: "/categories",
+    method: "get"
+  });
+};
+
+export const deleteCategory = _id => {
+  return request({
+    url: `/categories/delete/${_id}`,
+    method: "get"
+  });
+};

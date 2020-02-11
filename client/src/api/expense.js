@@ -1,37 +1,23 @@
-import axios from 'axios'
-const config = require('../config.json')
+import request from "../lib/request";
 
-export const request = ({ url, method = 'get', data = {} }) => {
-  const token = localStorage.getItem('token')
-  let headers = {}
-  if (token) {
-    headers = { ...headers, Authorization: `Bearer ${token}` }
-  }
-
-  return axios({
-    url: `${config.apiUrl}${url}`,
-    method,
-    data,
-    headers,
-  })
-    .then(({ data }) => data)
-    .catch((e) => {
-      console.log(e)
-      return Promise.reject(e)
-    })
-}
-
-export const newExpense = ({ amount, category, date }) => {
+export const newExpense = ({ amount, category, description, date, owner }) => {
   return request({
-    url: '/expenses/create',
-    method: 'post',
-    data: { amount, category, date },
-  })
-}
+    url: "/expenses/create",
+    method: "post",
+    data: { amount, category, description, date, owner }
+  });
+};
 
-export const getExpense = () => {
+export const getExpenses = () => {
   return request({
-    url: '/expenses/',
-    method: 'get',
-  })
-}
+    url: "/expenses",
+    method: "get"
+  });
+};
+
+export const deleteExpense = _id => {
+  return request({
+    url: `/expenses/delete/${_id}`,
+    method: "get"
+  });
+};

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Form, Button } from "react-bootstrap";
 import { required, date } from "redux-form-validators";
@@ -7,32 +7,36 @@ import { connect } from "react-redux";
 import { AddExpense } from "../../redux/actions/expensesActions";
 
 import { newExpense } from "../../api/expense";
-import { getCategory } from "../../api/category";
+import { getCategories } from "../../api/category";
 import OwnInput from "../OwnInput";
 import OwnComboBox from "../OwnComboBox";
 import DatePicker, { formatDates, normalizeDates } from "../OwnDatePicker";
 
-const ExpenseForm = (
-  props,                                                              
+const CreateExpense = ({
+  handleSubmit,
+  pristine,
+  submitting,
   AddExpense,
-  expenseData
-) => {
-  const sendToServer = (amount, category, date) => {
-    newExpense({ amount, category, date }).then(({ expense }) => {
-      // localStorage.setItem("token", token);
-      localStorage.setItem("expense", expense);
+  expensesData,
+  history
+}) => {
+  const [categoriesList, setCategoriesList] = useState([]);
 
-      AddExpense(expense);
-    });
+  const sendToServer = ({ amount, category, date, description }) => {
+    const { _id } = localStorage.getItem("user");
+    newExpense({ amount, category, description, date, owner: _id })
+      .then(result => {
+        AddExpense(result);
+        history.push("/expenses");
+      })
+      .catch(err => console.log(err));
   };
 
   useEffect(() => {
-    getCategory().then(res => {
-      console.log(res);
+    getCategories().then(res => {
+      setCategoriesList(res);
     });
   }, []);
-
-  const { handleSubmit, pristine, submitting } = props
 
   return (
     <Form onSubmit={handleSubmit(sendToServer)}>
@@ -42,7 +46,7 @@ const ExpenseForm = (
           name="amount"
           component={OwnInput}
           type="text"
-          placeholder="Amount"
+          placeholder="Amount..."
           validate={[required()]}
         />
       </Form.Group>
@@ -53,6 +57,18 @@ const ExpenseForm = (
           name="category"
           component={OwnComboBox}
           validate={[required()]}
+          categories={categoriesList}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="formBasicDescription">
+        <Form.Label>Description</Form.Label>
+        <Field
+          name="description"
+          component={OwnInput}
+          type="text"
+          placeholder="Description..."
+          validate={[required()]}
         />
       </Form.Group>
 
@@ -61,7 +77,7 @@ const ExpenseForm = (
         <Field
           name={"date"}
           component={DatePicker}
-          placeholder="Date"
+          placeholder="Date..."
           parse={normalizeDates}
           format={formatDates}
           validate={[required(), date()]}
@@ -81,13 +97,16 @@ const ExpenseForm = (
   );
 };
 
-const CreateExpense = reduxForm({
-  form: "expense" // a unique identifier for this form
-})(ExpenseForm);
+const CreateExpenseForm = reduxForm({
+  form: "expense"
+})(CreateExpense);
 
-export default connect(
-	({ expense: { data } }) => ({ expenseData: data }),
-	{
-	  AddExpense,
-	}
-  )(CreateExpense)
+const mapStateToProps = store => {
+  return {
+    expensesData: store.expenses.data
+  };
+};
+
+export default connect(mapStateToProps, {
+  AddExpense
+})(CreateExpenseForm);

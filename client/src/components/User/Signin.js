@@ -1,27 +1,34 @@
-import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { connect } from 'react-redux'
-import { Form, Button } from 'react-bootstrap'
+import React from "react";
+import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
+import { Form, Button } from "react-bootstrap";
 
-import { required, minLength5 } from '../utils/validators'
-import { fetchUser } from '../redux/actions/userActions'
-import { login } from '../api/user'
+import { required, minLength5 } from "../../utils/validators";
+import { fetchUser } from "../../redux/actions/userActions";
+import { login } from "../../api/user";
 
-import OwnInput from "./OwnInput";
+import OwnInput from "../OwnInput";
 
-const SimpleForm = ({ handleSubmit, pristine, submitting, fetchUser, userData, history }) => {
+const SimpleForm = ({
+  handleSubmit,
+  pristine,
+  submitting,
+  fetchUser,
+  userData,
+  history
+}) => {
   const sendToServer = ({ username, password }) => {
     login({ username, password })
       .then(({ token, user }) => {
-        localStorage.setItem('token', token)
-        localStorage.setItem('user', user)
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", user);
 
-        fetchUser(user)
+        fetchUser(user);
       })
       .then(() => {
-        history.push('/expense')
-      })
-  }
+        history.push("/expenses");
+      });
+  };
 
   return (
     <Form onSubmit={handleSubmit(sendToServer)}>
@@ -61,16 +68,13 @@ const SimpleForm = ({ handleSubmit, pristine, submitting, fetchUser, userData, h
 };
 
 const LoginForm = reduxForm({
-  form: 'simple', // a unique identifier for this form
+  form: "simple", // a unique identifier for this form
   initialValues: {
-    username: 'vvvvv',
-    password: 'vvvvv',
-  },
-})(SimpleForm)
-
-export default connect(
-  ({ user: { data } }) => ({ userData: data }),
-  {
-    fetchUser,
+    username: "vvvvv",
+    password: "vvvvv"
   }
-)(LoginForm)
+})(SimpleForm);
+
+export default connect(({ user: { data } }) => ({ userData: data }), {
+  fetchUser
+})(LoginForm);

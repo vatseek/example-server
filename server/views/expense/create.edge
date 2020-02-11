@@ -7,14 +7,14 @@
      <select name="owner">
              
              @each(user in users)
-                 <option> {{user.login}} </option> 
+                 <option>{{user.id}}</option> 
              @endeach
          </select>  
  
      <label>Category:</label>
-     <select name="owner">
+     <select name="category">
              @each(category in categories)
-                 <option> {{ category.name }} </option> 
+                 <option>{{ category.id }}</option> 
              @endeach
          </select>  
  
