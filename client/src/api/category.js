@@ -14,3 +14,10 @@ export const getCategories = () => {
     method: 'get',
   })
 }
+
+export const deleteCategory = (_id) => {
+  return request({
+    url: `/categories/delete/${_id}`,
+    method: 'get',
+  })
+}

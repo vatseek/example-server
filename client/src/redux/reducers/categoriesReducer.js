@@ -1,24 +1,49 @@
 import { handleActions } from 'redux-actions'
-import { SAVE_CATEGORY } from '../actions/types'
+import {
+  insertCategory,
+  GetCategoriesStart,
+  GetCategoriesEnd,
+  DeleteCategory,
+} from '../actions/categoriesActions'
 
 const initialState = {
   data: [
     {
-      name: '',
+      isFetching: false,
+      data: null,
     },
   ],
 }
 
 const categoriesReducer = handleActions(
   {
-    [SAVE_CATEGORY]: (state = initialState, action) => {
+    [insertCategory]: (state = initialState, action) => {
       return {
         ...state,
         data: [...state.data, { name: action.payload }],
       }
     },
+    [GetCategoriesStart]: (state = initialState, action) => {
+      return {
+        ...state,
+        isFetching: true,
+      }
+    },
+    [GetCategoriesEnd]: (state = initialState, action) => {
+      return {
+        ...state,
+        isFetching: false,
+        data: action.payload,
+      }
+    },
+    [DeleteCategory]: (state = initialState, action) => {
+      return {
+        ...state,
+        data: state.data.filter(({ _id }) => _id !== action.payload),
+      }
+    },
   },
-  initialState,
+  initialState
 )
 
 export default categoriesReducer

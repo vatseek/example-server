@@ -3,6 +3,8 @@ import { Button, Card, InputGroup, FormControl } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import PageWrapper from '../../components/PageWrapper'
+import PageWrapperOOP from '../../components/PageWrapperOOP'
 import {
   getExpensesStart,
   getExpensesSuccess,
@@ -11,7 +13,7 @@ import {
 } from '../../redux/actions/expensesActions'
 import { fetchExpenses, deleteExpense } from '../../api/expense'
 
-class Expenses extends React.Component {
+class Expenses extends PageWrapperOOP {
   constructor(props) {
     super(props)
 
@@ -53,33 +55,36 @@ class Expenses extends React.Component {
   }
 
   render() {
-    console.log(this.props.expenses)
     return (
-      <div className='row' style={{ marginTop: '50px' }}>
-        <div className='container'>
-          <InputGroup className='mb-3'>
-            <FormControl placeholder='Description' aria-label='Description' aria-describedby='basic-addon2' />
-            <InputGroup.Append>
-              <Button variant='outline-secondary'>Search</Button>
-            </InputGroup.Append>
-            <Link to='/expenses/create'>
-              <Button variant='outline-primary'>Create expense</Button>
-            </Link>
-          </InputGroup>
-          {this.props.expenses &&
-            this.props.expenses.map((expense) => (
-              <Card key={expense._id}>
-                <Card.Header>{expense.amount} UAH</Card.Header>
-                <Card.Body>
-                  <Card.Text>{expense.description}</Card.Text>
-                  <Button variant='danger' value={expense._id} onClick={this.handleDelete}>
-                    Delete
-                  </Button>
-                </Card.Body>
-              </Card>
-            ))}
+        <div className="row" style={{ marginTop: '50px' }}>
+          <div className="container">
+            <InputGroup className="mb-3">
+              <FormControl
+                placeholder="Description"
+                aria-label="Description"
+                aria-describedby="basic-addon2"
+              />
+              <InputGroup.Append>
+                <Button variant="outline-secondary">Search</Button>
+              </InputGroup.Append>
+              <Link to="/expenses/create">
+                <Button variant="outline-primary">Create expense</Button>
+              </Link>
+            </InputGroup>
+            {this.props.expenses &&
+              this.props.expenses.map((expense) => (
+                <Card key={expense._id}>
+                  <Card.Header>{expense.amount} UAH</Card.Header>
+                  <Card.Body>
+                    <Card.Text>{expense.description}</Card.Text>
+                    <Button variant="danger" value={expense._id} onClick={this.handleDelete}>
+                      Delete
+                    </Button>
+                  </Card.Body>
+                </Card>
+              ))}
+          </div>
         </div>
-      </div>
     )
   }
 }
@@ -90,9 +95,12 @@ const mapStateToProps = (store) => {
   }
 }
 
-export default connect(mapStateToProps, {
-  getExpensesStart,
-  getExpensesSuccess,
-  getExpensesFailure,
-  removeExpense,
-})(Expenses)
+export default connect(
+  mapStateToProps,
+  {
+    getExpensesStart,
+    getExpensesSuccess,
+    getExpensesFailure,
+    removeExpense,
+  }
+)(Expenses)
