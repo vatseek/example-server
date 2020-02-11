@@ -3,7 +3,12 @@ import { Button, Card, InputGroup, FormControl } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { getExpensesStart, getExpenses, removeExpense } from '../../redux/actions/expensesActions'
+import {
+  getExpensesStart,
+  getExpensesSuccess,
+  getExpensesFailure,
+  removeExpense,
+} from '../../redux/actions/expensesActions'
 import { fetchExpenses, deleteExpense } from '../../api/expense'
 
 class Expenses extends React.Component {
@@ -14,18 +19,29 @@ class Expenses extends React.Component {
   }
 
   componentDidMount() {
-    const { expenses, getExpensesStart, getExpenses } = this.props
+    const { expenses, getExpensesStart, getExpensesSuccess, getExpensesFailure } = this.props
 
     if (expenses.length <= 0) {
       getExpensesStart()
       fetchExpenses()
         .then((result) => {
-          getExpenses(result)
+          getExpensesSuccess(result)
         })
         .catch((err) => {
+          getExpensesFailure(err)
           console.log(err)
         })
+    } else {
+      console.log('before sort ', expenses)
+      this.sortExpences(expenses)
+      console.log('after sort ', expenses)
     }
+  }
+
+  sortExpences(expenses) {
+    expenses.sort((prev, curr) => {
+      return new Date(prev.created_at).getDate() - new Date(curr.created_at).getDate()
+    })
   }
 
   handleDelete(e) {
@@ -37,6 +53,7 @@ class Expenses extends React.Component {
   }
 
   render() {
+    console.log(this.props.expenses)
     return (
       <div className='row' style={{ marginTop: '50px' }}>
         <div className='container'>
@@ -75,6 +92,7 @@ const mapStateToProps = (store) => {
 
 export default connect(mapStateToProps, {
   getExpensesStart,
-  getExpenses,
+  getExpensesSuccess,
+  getExpensesFailure,
   removeExpense,
 })(Expenses)
