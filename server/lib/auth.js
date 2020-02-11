@@ -5,7 +5,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt
 
 const User = require('../models/User')
 
-const localStrategy = new LocalStrategy(function(username, password, done) {
+const localStrategy = new LocalStrategy((username, password, done) => {
   User.findOne({ login: username })
     .then((user) => {
       if (!user) {

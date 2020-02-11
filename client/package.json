@@ -23,6 +23,7 @@
     "redux-actions": "^2.6.5",
     "redux-form": "^8.2.6",
     "redux-form-validators": "^3.3.2",
+    "redux-thunk": "^2.3.0",
     "yup": "^0.28.0"
   },
   "scripts": {

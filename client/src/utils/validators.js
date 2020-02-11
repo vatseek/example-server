@@ -6,8 +6,6 @@ const minLength = (minLength) => (value) =>
 const minLength5 = minLength(5)
 const minLength2 = minLength(2)
 const email = (value) =>
-  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'Invalid email address'
-    : undefined
+  value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid email address' : undefined
 
-export { required, email, minLength5,  minLength2}
+export { required, email, minLength5, minLength2 }

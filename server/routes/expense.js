@@ -1,10 +1,11 @@
 const express = require('express')
+const crypto = require('crypto')
 const router = express.Router()
 
-const Category = require('../models/Category')
+const Expense = require('../models/Expense')
 
 router.get('/', function(req, res) {
-  Category.find({})
+  Expense.find({})
     .then((result) => {
       res.send(result)
     })
@@ -14,9 +15,14 @@ router.get('/', function(req, res) {
 })
 
 router.post('/create', function(req, res) {
-  const { name } = req.body
-  const category = new Category({ name })
-  category
+  const { amount, description, category, owner } = req.body
+  const hash = crypto
+    .createHash('md5')
+    .update(amount + description)
+    .digest('hex')
+  const expense = new Expense({ amount, description, category, owner, hash })
+
+  expense
     .save()
     .then((result) => {
       res.send(result)
@@ -26,8 +32,8 @@ router.post('/create', function(req, res) {
     })
 })
 
-router.get('/delete/:id', function(req, res) {
-  Category.findOneAndRemove({ _id: req.params.id })
+router.post('/delete/:id', function(req, res) {
+  Expense.findOneAndRemove({ _id: req.params.id })
     .then((result) => {
       res.send(result)
     })

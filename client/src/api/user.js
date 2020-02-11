@@ -11,4 +11,3 @@ export const login = ({ username, password }) => {
 export const getProtected = () => {
   return request({ url: '/api/profile', method: 'get' })
 }
-
