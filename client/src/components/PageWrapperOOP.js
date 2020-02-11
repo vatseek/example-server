@@ -9,7 +9,7 @@ class Wrapper extends React.Component {
   //   }
   // }
 
-  navigateTo(route) {
+  navigateTo = (route) => {
     this.props.history.push(route)
   }
 }
