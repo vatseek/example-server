@@ -1,10 +1,5 @@
 import { handleActions } from 'redux-actions'
-import {
-  insertCategory,
-  GetCategoriesStart,
-  GetCategoriesEnd,
-  DeleteCategory,
-} from '../actions/categoriesActions'
+import { insertCategory, GetCategoriesStart, GetCategoriesEnd, DeleteCategory } from '../actions/categoriesActions'
 
 const initialState = {
   data: [
@@ -43,7 +38,7 @@ const categoriesReducer = handleActions(
       }
     },
   },
-  initialState
+  initialState,
 )
 
 export default categoriesReducer
