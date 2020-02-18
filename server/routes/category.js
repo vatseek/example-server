@@ -36,4 +36,18 @@ router.get('/delete/:id', function(req, res) {
     })
 })
 
+router.post('/change/:id', function(req, res) {
+  Category.findByIdAndUpdate(
+    req.params.id,
+    {
+      name: req.body.name || 'Untitled Category',
+    },
+    { new: true },
+  )
+    .then((result) => res.send(result))
+    .catch((err) => {
+      console.log(err)
+    })
+})
+
 module.exports = router

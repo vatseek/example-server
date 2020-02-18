@@ -4,7 +4,6 @@ import { Form, Button } from 'react-bootstrap'
 import { required, date } from 'redux-form-validators'
 import { connect } from 'react-redux'
 
-import { getCategories } from '../../api/category'
 import OwnInput from '../OwnInput'
 import OwnComboBox from '../OwnComboBox'
 import DatePicker, { formatDates, normalizeDates } from '../OwnDatePicker'
@@ -12,7 +11,7 @@ import DatePicker, { formatDates, normalizeDates } from '../OwnDatePicker'
 import { insertExpense } from '../../redux/actions/expensesActions'
 import { saveExpense } from '../../api/expense'
 
-const ExpenseForm = ({ handleSubmit, pristine, submitting, insertExpense, expensesData, history }) => {
+const ExpenseForm = ({ handleSubmit, pristine, submitting, insertExpense, categories, history }) => {
   const [categoriesList, setCategoriesList] = useState([])
 
   const sendToServer = ({ amount, category, date, description }) => {
@@ -26,9 +25,7 @@ const ExpenseForm = ({ handleSubmit, pristine, submitting, insertExpense, expens
   }
 
   useEffect(() => {
-    getCategories().then((res) => {
-      setCategoriesList(res)
-    })
+    setCategoriesList(categories)
   }, [])
 
   if (!categoriesList) {
@@ -44,7 +41,7 @@ const ExpenseForm = ({ handleSubmit, pristine, submitting, insertExpense, expens
 
       <Form.Group controlId='formBasicCategory'>
         <Form.Label>Category</Form.Label>
-        <Field name='category' component={OwnComboBox} validate={[required()]} categories={categoriesList} />
+        <Field name='category' component={OwnComboBox} validate={[required()]} categories={categories} />
       </Form.Group>
 
       <Form.Group controlId='formBasicDescription'>
@@ -79,7 +76,7 @@ const UpdatedExpenseForm = reduxForm({
 
 const mapStateToProps = (store) => {
   return {
-    expensesData: store.expenses.data,
+    categories: store.categories.data,
   }
 }
 

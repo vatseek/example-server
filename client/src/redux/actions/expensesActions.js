@@ -1,12 +1,25 @@
 import { createAction } from 'redux-actions'
-const ADD_EXPENSE = 'ADD_EXPENSE'
-const GET_EXPENSES_START = 'GET_EXPENSES_START'
-const GET_EXPENSES_END = 'GET_EXPENSES_END'
-const DELETE_EXPENSE = 'DELETE_EXPENSE'
+import {
+  SAVE_EXPENSE,
+  FETCH_EXPENSES_START,
+  FETCH_EXPENSES_SUCCESS,
+  FETCH_EXPENSES_FAILURE,
+  REMOVE_EXPENSE_SUCCESS,
+  REMOVE_EXPENSE_FAILURE,
+} from '../actions/types'
 
-const AddExpense = createAction(ADD_EXPENSE)
-const GetExpensesStart = createAction(GET_EXPENSES_START)
-const GetExpensesEnd = createAction(GET_EXPENSES_END)
-const DeleteExpense = createAction(DELETE_EXPENSE)
+const insertExpense = createAction(SAVE_EXPENSE)
+const getExpensesStart = createAction(FETCH_EXPENSES_START)
+const getExpensesSuccess = createAction(FETCH_EXPENSES_SUCCESS)
+const getExpensesFailure = createAction(FETCH_EXPENSES_FAILURE)
+const removeExpenseSuccess = createAction(REMOVE_EXPENSE_SUCCESS)
+const removeExpenseFailed = createAction(REMOVE_EXPENSE_FAILURE)
 
-export { AddExpense, GetExpensesStart, GetExpensesEnd, DeleteExpense }
+export {
+  insertExpense,
+  removeExpenseSuccess,
+  removeExpenseFailed,
+  getExpensesStart,
+  getExpensesSuccess,
+  getExpensesFailure,
+}

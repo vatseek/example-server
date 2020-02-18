@@ -8,7 +8,7 @@ export const saveCategory = (name) => {
   })
 }
 
-export const getCategories = () => {
+export const fetchCategories = () => {
   return request({
     url: '/categories',
     method: 'get',

@@ -8,6 +8,14 @@ export const login = ({ username, password }) => {
   })
 }
 
+export const register = ({ username, password }) => {
+  return request({
+    url: '/register',
+    method: 'post',
+    data: { username, password },
+  })
+}
+
 export const getProtected = () => {
   return request({ url: '/api/profile', method: 'get' })
 }

@@ -42,17 +42,8 @@ const CategoryForm = ({ handleSubmit, pristine, submitting, insertCategory, hist
 
 const UpdatedCategoryForm = reduxForm({
   form: 'simple',
-  initialValues: {
-    name: 'category',
-  },
 })(CategoryForm)
 
-const mapStateToProps = (store) => {
-  return {
-    categories: store.categories.data,
-  }
-}
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   insertCategory,
 })(UpdatedCategoryForm)

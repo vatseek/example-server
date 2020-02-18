@@ -1,50 +1,57 @@
 import { handleActions } from 'redux-actions'
 import {
-  SAVE_EXPENSE,
-  FETCH_EXPENSES_START,
-  FETCH_EXPENSES_SUCCESS,
-  FETCH_EXPENSES_FAILURE,
-  REMOVE_EXPENSE,
-} from '../actions/types'
+  insertExpense,
+  getExpensesStart,
+  getExpensesSuccess,
+  getExpensesFailure,
+  removeExpenseSuccess,
+  removeExpenseFailed,
+} from '../actions/expensesActions'
 
 const initialState = {
-  isFetching: false,
   data: [],
-  error: '',
+  isFetching: false,
+  error: null,
 }
 
 const expensesReducer = handleActions(
   {
-    [SAVE_EXPENSE]: (state = initialState, action) => {
+    [insertExpense]: (state = initialState, action) => {
       return {
         ...state,
-        data: [...state.data, action.payload],
+        data: [action.payload, ...state.data],
       }
     },
-    [FETCH_EXPENSES_START]: (state = initialState, action) => {
+    [getExpensesStart]: (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
       }
     },
-    [FETCH_EXPENSES_SUCCESS]: (state = initialState, action) => {
+    [getExpensesSuccess]: (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
         data: action.payload,
       }
     },
-    [FETCH_EXPENSES_FAILURE]: (state = initialState, action) => {
+    [getExpensesFailure]: (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
         error: action.payload,
       }
     },
-    [REMOVE_EXPENSE]: (state = initialState, action) => {
+    [removeExpenseSuccess]: (state = initialState, action) => {
       return {
         ...state,
         data: state.data.filter(({ _id }) => _id !== action.payload),
+      }
+    },
+    [removeExpenseFailed]: (state = initialState, action) => {
+      return {
+        ...state,
+        error: action.payload,
       }
     },
   },
