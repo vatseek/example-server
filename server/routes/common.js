@@ -7,15 +7,11 @@ const { passport, isAuth } = require('../lib/auth')
 const { getBalance } = require('../lib/privat')
 const { addNewExpenses } = require('../services/expense')
 
-const Category = require('../models/Category')
+const User = require('../models/User')
 
 const CARD_ID = '5363542306858664'
 const START_DATE = '2020-01-21'
 const END_DATE = '2020-01-22'
-
-router.get('/', function(req, res) {
-  res.render('index', { username: req.user ? req.user.login : 'Anonymous' })
-})
 
 router.get('/login', function(req, res) {
   res.render('user/login')
@@ -38,6 +34,35 @@ router.post('/login', function(req, res) {
       return res.json({ user, token })
     })
   })(req, res)
+})
+
+router.post('/register', function(req, res) {
+  const { username, password } = req.body
+  const user = new User({ login: username, password })
+
+  user
+    .save()
+    .then((result) => {
+      passport.authenticate('local', { session: false }, (err, user) => {
+        if (err || !user) {
+          return res.status(400).json({
+            message: 'Something is not right',
+            user: user,
+          })
+        }
+        req.login(user, { session: false }, (err) => {
+          if (err) {
+            res.send(err)
+          }
+
+          const token = jwt.sign(user.toJSON(), 'secret')
+          return res.json({ user, token })
+        })
+      })(req, res)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 })
 
 router.get('/logout', function(req, res) {
@@ -78,29 +103,6 @@ router.get('/balance/:owner_id/:category_id', function(req, res) {
     .catch((e) => {
       console.log(e)
       return res.send(e.message)
-    })
-})
-
-router.get('/categories/change/:id', function(req, res) {
-  const { id } = req.params
-  Category.findById(id, (err, category) => {
-    if (!err) {
-      res.render('category/change', { category })
-    }
-  })
-})
-
-router.post('/categories/change/:id', function(req, res) {
-  Category.findByIdAndUpdate(
-    req.params.id,
-    {
-      name: req.body.name || 'Untitled Category',
-    },
-    { new: true },
-  )
-    .then(res.redirect('/categories/all'))
-    .catch((err) => {
-      console.log(err)
     })
 })
 

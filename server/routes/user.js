@@ -28,7 +28,7 @@ router.get('/:login', function(req, res) {
 router.post('/create', function(req, res) {
   const { login, password } = req.body
 
-  const user = new User({ login, password })
+  const user = new User({ login, password, age })
   user
     .save()
     .then((result) => {

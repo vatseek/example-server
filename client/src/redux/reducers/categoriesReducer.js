@@ -1,18 +1,17 @@
 import { handleActions } from 'redux-actions'
 import {
   insertCategory,
-  GetCategoriesStart,
-  GetCategoriesEnd,
-  DeleteCategory,
+  removeCategorySuccess,
+  removeCategoryFailure,
+  getCategoriesStart,
+  getCategoriesSuccess,
+  getCategoriesFailure,
 } from '../actions/categoriesActions'
 
 const initialState = {
-  data: [
-    {
-      isFetching: false,
-      data: null,
-    },
-  ],
+  data: [],
+  isFetching: false,
+  error: null,
 }
 
 const categoriesReducer = handleActions(
@@ -23,27 +22,40 @@ const categoriesReducer = handleActions(
         data: [...state.data, { name: action.payload }],
       }
     },
-    [GetCategoriesStart]: (state = initialState, action) => {
+    [getCategoriesStart]: (state = initialState, action) => {
       return {
         ...state,
         isFetching: true,
       }
     },
-    [GetCategoriesEnd]: (state = initialState, action) => {
+    [getCategoriesSuccess]: (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
         data: action.payload,
       }
     },
-    [DeleteCategory]: (state = initialState, action) => {
+    [getCategoriesFailure]: (state = initialState, action) => {
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload,
+      }
+    },
+    [removeCategorySuccess]: (state = initialState, action) => {
       return {
         ...state,
         data: state.data.filter(({ _id }) => _id !== action.payload),
       }
     },
+    [removeCategoryFailure]: (state = initialState, action) => {
+      return {
+        ...state,
+        error: action.payload,
+      }
+    },
   },
-  initialState
+  initialState,
 )
 
 export default categoriesReducer

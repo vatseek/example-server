@@ -1,11 +1,11 @@
 import { handleActions } from 'redux-actions'
-import { SAVE_USER } from '../actions/types'
+import { insertUser } from '../actions/userActions'
 
 const initialState = {}
 
 const userReducer = handleActions(
   {
-    [SAVE_USER]: (state = initialState, action) => {
+    [insertUser]: (state = initialState, action) => {
       return {
         ...state,
         data: action.payload,
