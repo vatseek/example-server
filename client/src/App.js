@@ -8,11 +8,13 @@ import ExpenseForm from './components/expense/ExpenseForm'
 import Expenses from './components/expense/Expenses'
 import CategoryForm from './components/category/CategoryForm'
 import Categories from './components/category/Categories'
+import Loader from './components/Loader'
 
 class App extends React.Component {
   render() {
     return (
       <Provider store={store}>
+        <Loader />
         <Router>
           <Switch>
             <Route exact path='/login' component={LoginForm} />

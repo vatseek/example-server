@@ -1,7 +1,9 @@
 import { handleActions } from 'redux-actions'
 import { SAVE_USER } from '../actions/types'
 
-const initialState = {}
+const initialState = {
+  data: null
+}
 
 const userReducer = handleActions(
   {

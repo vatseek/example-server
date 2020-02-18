@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import PageWrapper from '../../components/PageWrapper'
-import PageWrapperOOP from '../../components/PageWrapperOOP'
 import {
   getExpensesStart,
   getExpensesSuccess,
@@ -13,7 +12,7 @@ import {
 } from '../../redux/actions/expensesActions'
 import { fetchExpenses, deleteExpense } from '../../api/expense'
 
-class Expenses extends PageWrapperOOP {
+class Expenses extends React.Component {
   constructor(props) {
     super(props)
 
@@ -56,6 +55,8 @@ class Expenses extends PageWrapperOOP {
 
   render() {
     return (
+      <>
+        <PageWrapper />
         <div className="row" style={{ marginTop: '50px' }}>
           <div className="container">
             <InputGroup className="mb-3">
@@ -85,6 +86,7 @@ class Expenses extends PageWrapperOOP {
               ))}
           </div>
         </div>
+      </>
     )
   }
 }
